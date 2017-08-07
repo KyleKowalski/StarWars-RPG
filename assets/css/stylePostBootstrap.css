@@ -1,0 +1,116 @@
+* {
+
+}
+
+html {
+	height:100%;
+}
+
+body {
+/*	height:100%;
+	margin:0px;
+	padding:0px;
+	padding-bottom:70px;
+	background-image: url("../images/concrete_seamless.png");
+	min-width: 340px*/
+}
+
+.spaced {
+	letter-spacing: 2px;
+	font-size:15px;
+}
+
+/*.wrapper {
+	height:100%;
+}*/
+
+/*.navbar-brand {
+	background-color: rgba(0, 128, 128, 1);
+	color: white;
+	text-decoration: none
+	padding-left:15px;
+}*/
+
+/*.navbar-default .navbar-brand {
+	color:white;
+}*/
+
+/*.bioPic {
+	height:200px;
+	width:200px;
+	padding-bottom:10px;
+	padding-right:15px;
+	padding-left:0px;
+	float:left;
+}*/
+
+/*.relative img {
+	width:90%;
+	margin:5%;
+}*/
+
+/*h2 {
+	padding-left:15px;
+	font-size:25px;
+	margin:10px;
+}*/
+
+.relative {
+	position:relative;
+	padding:0;
+} 
+
+.absolute {
+	position:absolute;
+	top:5%;
+	left:5%;
+	vertical-align: middle;
+	padding:0;
+	z-index:1;
+	background-image: url("../images/x-wing.jpg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	color:white;
+	width:90%;
+	height:90%;
+	/*margin:5%;*/
+}
+
+/*.teal-text {
+	color: rgba(0, 128, 128, 1);
+}*/
+
+/*.aboutMe {
+	background-color: rgba(255, 255, 255, 1);
+	margin-right:25px;
+	margin-bottom:25px;
+	padding-bottom:20px;
+}*/
+
+/*button {
+  background-color: teal;
+  color:white;
+  font-size:15px;
+  padding:10px;
+  padding-left:15px;
+  padding-right:15px;
+}*/
+
+
+/*#theFooter {
+	clear: both;
+	text-align: center;
+	vertical-align: middle;
+	background-color:darkgray;
+	border-top: 5px solid teal;
+	position: relative;
+	bottom:0;
+	height:70px;
+	margin-top:-70px;
+
+}
+
+#theFooter p {
+	padding:25px 0;
+	margin-bottom:0;
+}*/

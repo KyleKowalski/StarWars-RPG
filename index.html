@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>Hangman</title>
+
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets\css\stylePostBootstrap.css">
+
+</head>
+<body>
+	<container class="text-center">
+		<row>
+			<div id="title" class="jumbotron">
+				<h1>Star Wars</h1>
+				<h3>Role Playing Game</h3>
+				<h5>by Kyle Kowalski</h5>
+			</div>
+		</row>
+	</container>
+
+
+
+  	<script type="text/javascript">
+
+     	$(document).ready(function() {
+
+      	});
+
+
+  		// obvious variable is obvious - used for 'teaching' myself and others.
+  		var debugging = false;
+  		var verbose = false;
+
+  		if (debugging) {console.log("----- Start Game -----");}
+
+  		// show 4 possible players on screen
+  		// Player Health, AttackPower, CounterAttackPower
+  		var gameCharacters = {
+  			Luke: {
+  				Status:"alive",
+  				HP:100,
+  				AP:20,
+  				APGrowth:20,
+  				CounterAP:5},
+  			ObiWan: {
+  				Status:"alive",
+  				HP:120,
+  				AP:12,
+  				APGrowth:12,
+  				CounterAP:110},
+  			DarthSideous: {
+  				Status:"alive",
+  				HP:150,
+  				AP:10,
+  				APGrowth:10,
+  				CounterAP:15},
+  			DarthMaul: {
+  				Status:"alive",
+  				HP:180,
+  				AP:10,
+  				APGrowth:10,
+  				CounterAP:25}
+  		}
+
+  		var player = {
+  			Choice:"",
+  			Opponent:""
+  		}
+
+  		//playerclick make this better
+  		player.Choice = "Luke";
+  		console.log("Player chose: " +  player.Choice);
+  		// player.HP = gameCharacters.Luke.HP;
+  		// player.AP = gameCharacters.Luke.AP;
+  		// player.APGrowth = gameCharacters.Luke.AP;
+  		gameCharacters.Luke.Status = "player"; // allows us to choice for 'player' stats later (I hope?)
+
+  		// click button to choose my player
+  			// Luke
+  			// Obi-Wan
+  			// Darth Sideous
+  			// Darth Maul
+  			// TODO Add in:  Darth Vader / General Grievous / Yoda / etc
+  			// TODO - make it choose 4x of these?  Or any/all?  Unlock toons?
+
+  		// other players become opponents - all three
+  		// this is a loop through the gameCharacters and see those that are not player and not dead
+
+  		chooseOpponentAndFight("ObiWan");
+
+  		function chooseOpponentAndFight(Opponent) {
+	  		// player chooses one opponent - clicked Obiwan
+	  		player.Opponent = Opponent;
+	  		gameCharacters[player.Opponent].Status = "Opponent";
+	  		console.log("Player using: " + player.Choice);
+	  		console.log("Currently facing off against: " + player.Opponent);
+	  		console.log("Current HP: " + gameCharacters[player.Choice].HP);
+	  		console.log("Current AP Growth: " + gameCharacters[player.Choice].APGrowth);
+	  		console.log("Player Current AP: " + gameCharacters[player.Choice].AP);
+	  		console.log("Opponent HP: " + gameCharacters[player.Opponent].HP);
+	  		console.log("Opponent Counter AP: " + gameCharacters[player.Opponent].CounterAP);
+			// click 'attack' - this attacks the target and increases base attack based on attack (attack = attack + basePower... goes up forever)
+			// this also removes HP based on targets counterattack power
+			// we're uhh skipping this at the moment and just doing the same thing... 
+			do {
+				// TODO write this to a text box for dramatic effect?
+
+				// player attacks
+				gameCharacters[player.Opponent].HP -= gameCharacters[player.Choice].AP;
+				console.log("Player damages opponent - their HP remaining: " + gameCharacters[player.Opponent].HP);
+
+				// player attack grows!
+				gameCharacters[player.Choice].AP += gameCharacters[player.Choice].APGrowth;
+				console.log("Player learns to attack better! New AP: " + gameCharacters[player.Choice].AP);
+
+				// not damaged by counter if opponent defeated?
+				if (gameCharacters[player.Opponent].HP > 0) {
+					// opponent counters
+					gameCharacters[player.Choice].HP -= gameCharacters[player.Opponent].CounterAP;
+					console.log("Opponent counters, new HP: " + gameCharacters[player.Choice].HP);
+				}
+
+			}	while ((gameCharacters[player.Opponent].HP > 0) && (gameCharacters[player.Choice].HP > 0))
+
+			if (gameCharacters[player.Opponent].HP < 0) {
+				console.log("Opponent defeated!");
+			}
+
+			else if (gameCharacters[player.Choice].HP < 0) {
+				console.log("Player is defeated!");
+			}
+
+		};
+		// when opponent HP drops to zero - opponent is defeated
+
+		// player chooses next opponent (of remaining 2)
+
+		// when oppoent HP drops to zero - oppoentn is defeated
+
+		// player automagically fights last opponent
+
+		// if player defeats everyone - player wins!
+
+		// if players HP drops below 0... player loses
+
+		// no health potions.  
+
+	</script>
+</body>
+</html>
