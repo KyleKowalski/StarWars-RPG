@@ -27,7 +27,7 @@
 
 
 
-  	<script type="text/javascript">
+	<script type="text/javascript">
 
      	$(document).ready(function() {
 
@@ -54,8 +54,8 @@
   				HP:120,
   				AP:12,
   				APGrowth:12,
-  				CounterAP:110},
-  			DarthSideous: {
+  				CounterAP:10},
+  			DarthSidious: {
   				Status:"alive",
   				HP:150,
   				AP:10,
@@ -87,15 +87,18 @@
   			// Obi-Wan
   			// Darth Sideous
   			// Darth Maul
-  			// TODO Add in:  Darth Vader / General Grievous / Yoda / etc
+  			// TODO Add in:  Darth Vader / General Grievous / Yoda / Han + Chewie
   			// TODO - make it choose 4x of these?  Or any/all?  Unlock toons?
 
   		// other players become opponents - all three
   		// this is a loop through the gameCharacters and see those that are not player and not dead
 
   		chooseOpponentAndFight("ObiWan");
+  		chooseOpponentAndFight("DarthSidious");
+  		chooseOpponentAndFight("DarthMaul");
 
   		function chooseOpponentAndFight(Opponent) {
+  			console.log("----- Battle Started -----");
 	  		// player chooses one opponent - clicked Obiwan
 	  		player.Opponent = Opponent;
 	  		gameCharacters[player.Opponent].Status = "Opponent";
@@ -136,7 +139,7 @@
 			else if (gameCharacters[player.Choice].HP < 0) {
 				console.log("Player is defeated!");
 			}
-
+			console.log("----- Battle Ended -----");
 		};
 		// when opponent HP drops to zero - opponent is defeated
 
