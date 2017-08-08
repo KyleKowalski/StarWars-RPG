@@ -75,9 +75,9 @@
 	<container id="winLossContainer" class="hidden absolute text-center">
 		<row>
 			<div>
-				<h1 id="winOrLoss"></h1>
+				<h1 id="winOrLoss" class="winOrLossColor"></h1>
 				<hr>
-				<h3>Click in this window to reset the game!</h3>
+				<h3 class="winOrLossColor">Click in this window to reset the game!</h3>
 			</div>
 		</row>
 	</container>
@@ -218,11 +218,20 @@
 				gameCharacters[player.Opponent].Status = "defeated";
 				player.Opponent = "";
 				$("#selectOpponent").removeClass("hidden");
+				if(!(checkForWin())) {
+					console.log("Apparently no one is left to fight you.  You Win!");
+					$("#winLossContainer").css("background-image", "url(assets/images/gameWon.jpg)");
+					$("#winLossContainer").removeClass("hidden");
+					$(".winOrLossColor").css("color","black")
+					$("#winOrLoss").html("You win!");
+				};
 			}
 			else if (gameCharacters[player.Choice].HP <= 0) {
 				console.log("Player is defeated!");
 				//alert("game over, player died!");
+				$("#winLossContainer").css("background-image", "url(assets/images/gameLoss.jpg)");
 				$("#winLossContainer").removeClass("hidden");
+				$(".winOrLossColor").css("color","white")
 				$("#winOrLoss").html("You lost!");
 			}
 			else {
@@ -400,8 +409,16 @@
 	  		return thisClickValidityCheck;
 	  	}
 
-	  	function setupGame() {
-
+	  	function checkForWin() {
+	  		console.log("checking to see if we won as we just defeated another opponent");
+	  		var isAnyoneAliveStill = false;
+	  		$.each(gameCharacters, function(name, character){
+	  			if (character.Status == "alive") {
+	  				console.log("looks like we have a live one!  Keep playing!");
+	  				isAnyoneAliveStill = true;
+	  			}
+	  		});
+	  		return isAnyoneAliveStill;
 	  	}
 	
 

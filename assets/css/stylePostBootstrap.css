@@ -68,7 +68,8 @@ img {
 	vertical-align: middle;
 	padding:0;
 	z-index:1;
-	background-image: url("../images/gameLoss.jpg");
+	background-color:black;
+	/*background-image: url("../images/gameLoss.jpg");*/
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	color:white;
