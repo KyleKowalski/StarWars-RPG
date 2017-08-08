@@ -15,9 +15,10 @@ body {
 	min-width: 340px*/
 }
 
-.spaced {
-	letter-spacing: 2px;
-	font-size:15px;
+img {
+	height: 150px;
+	width:250px;
+	float:left;
 }
 
 /*.wrapper {
