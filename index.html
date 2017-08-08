@@ -135,8 +135,8 @@
   		$(document).on('click', function(event) {
     		console.log(event.target.id);
 
-    		// TODO solidify this logic, we can break out currently.
     		if (event.target.id != null && event.target.id != "") {
+    			// make sure we're only allowing id's that are valid for game use (ie dropping the 'title' div and what not)
     			if (isValidClick(event.target.id)) {
     				console.log("User selection: " + event.target.id);
 		    		// initial player selection
@@ -155,20 +155,22 @@
 		    			gameCharacters[player.Opponent].Status = "opponent";
 		    			characterDivSetup();
 		    		}
-		    		else if (player.Choice != "" && player.Opponent != null) {
-
+		    		else if (player.Choice != "" && player.Opponent != "") {
+		    			console.log("Received click for: " + event.target.id + " but combat is not yet resolved.  Ignoring the click." );
+		    		}
+		    		else {
+		    			console.log("We have a problem with the on click events");
 		    		}
 
     			}
-    			else if (event.target.id == "attackButton") {
+    			else if (event.target.id == "attackButton" && player.Opponent != "") {
     				chooseOpponentAndFight(player.Opponent);
-
+    			}
+    			else {
+    				console.log("looks like player is clicking attack without opponent - or we have something else wrong, dropping the click.")
     			}
     		}
 		});
-	
-		//characterDivSetup();
-
   		//player click make this better
   		//player.Choice = "Luke";
   		//console.log("Player chose: " +  player.Choice);
@@ -183,11 +185,6 @@
   			// TODO - make it choose 4x of these?  Or any/all?  Unlock toons?
 
   		// other players become opponents - all three
-  		// this is a loop through the gameCharacters and see those that are not player and not dead
-  		//chooseOpponentAndFight("Luke");
-  		//chooseOpponentAndFight("ObiWan");
-  		//chooseOpponentAndFight("DarthSidious");
-  		//chooseOpponentAndFight("DarthMaul");
 
 		// when opponent HP drops to zero - opponent is defeated
 
@@ -229,14 +226,13 @@
 				gameCharacters[player.Choice].AP += gameCharacters[player.Choice].APGrowth;
 				console.log("Player learns to attack better! New AP: " + gameCharacters[player.Choice].AP);
 
-				// not damaged by counter if opponent defeated?
+				// not damaged by counter if opponent defeated - we'll call this a house rule.  It makes the game SIGNIFICANTLY easier.  
 				if (gameCharacters[player.Opponent].HP > 0) {
 					// opponent counters
 					gameCharacters[player.Choice].HP -= gameCharacters[player.Opponent].CounterAP;
 					console.log("Opponent counters, new HP: " + gameCharacters[player.Choice].HP);
 				}
 			}
-			//}	while ((gameCharacters[player.Opponent].HP > 0) && (gameCharacters[player.Choice].HP > 0))
 
 			if (gameCharacters[player.Opponent].HP <= 0) {
 				console.log("Opponent " + player.Opponent + " defeated!");
@@ -249,29 +245,30 @@
 				// TODO a lot more here
 			}
 			else {
-				console.log("something happened with the battle cleanup, check your error");
+				console.log("Looks like both Opponent and player are alive.  Player HP: " + gameCharacters[player.Choice].HP + " Opponent HP: " + gameCharacters[player.Opponent].HP);
 			}
 			console.log("----- Battle Ended -----");
 			characterDivSetup();
 		};
 
 	  	function characterDivSetup() {
-	  		// cleanup and splat things in again - maybe not the most efficient but hey...
-	  		// I'm trying to do this with almost no divs on the main page / just a skeleton
+	  		// cleanup and splat things in again - is this the most efficient way?  Seems to work pretty well?  
+	  		// I'm trying to do this with few divs on the main page / just a skeleton
+	  		// cleanup for current round.  
 	  		$("#aliveCharactersHere").empty();
 	  		$("#playerCharacterHere").empty();
 	  		$("#opponentCharacterHere").empty();
 	  		$("#defeatedCharactersHere").empty();
-	  		// get each character and give them a div
 	  		var targetAliveDiv = $("#aliveCharactersHere");
 	  		var targetPlayerDiv = $("#playerCharacterHere");
 	  		var targetOpponentDiv = $("#opponentCharacterHere");
 	  		var targetDefeatedDiv = $("#defeatedCharactersHere");
-
+			// get each character and give them a div
 	  		$.each(gameCharacters, function(number, character){
 
 				var newDiv = document.createElement("div");
 				var img = document.createElement("IMG");
+				var statDiv = document.createElement("div");
 
 	  			if (character.Status == "player"){
 	  				console.log("This is the chosen player: " + character.FullName);
@@ -279,7 +276,7 @@
 	  				// TODO style for player
 	  			}
 	  			else if (character.Status == "opponent") {
-	  				console.log("This is the chosen opponent: " + character.Opponent);
+	  				console.log("This is the chosen opponent: " + player.Opponent);
 	  				targetOpponentDiv.append(newDiv);
 	  				// TODO style for opponent
 	  			}
@@ -300,7 +297,11 @@
 	    		//newDiv.setAttribute("id", character.ShortName);
 	    		img.setAttribute("id", character.ShortName);
 	    		img.src = character.Image;
+	    		statDiv.className = "row";
+	    		statDiv.innerHTML = "<br>" + character.FullName + "<br>HP: " + character.HP + " AP: " + character.AP + " Counter: " + character.CounterAP;
 	    		newDiv.append(img)
+	    		newDiv.append(statDiv);
+
 	  		})
 	  	}
 
