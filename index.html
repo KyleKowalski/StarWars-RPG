@@ -253,26 +253,34 @@
 	  			if (character.Status == "player"){
 	  				if (debugging) {console.log("This is the chosen player: " + character.FullName);}
 	  				targetPlayerDiv.append(newDiv);
+	  				newDiv.setAttribute("style", "background-color: green");
+	  				img.src = character.Image;
 	  			}
 	  			else if (character.Status == "opponent") {
 	  				if (debugging) {console.log("This is the chosen opponent: " + player.Opponent);}
 	  				targetOpponentDiv.append(newDiv);
+	  				newDiv.setAttribute("style", "background-color: red");
+	  				img.src = character.Image;
 	  			}
 	  			else if (character.Status == "alive") {
 	  				if (debugging) {console.log("This toon alive and ready in character pool: " + character.FullName);}
 	    			targetAliveDiv.append(newDiv);
 	    			newDiv.className = "col-xs-12 col-sm-6 col-md-6 col-lg-6";
+	    			newDiv.setAttribute("style", "background-color: blue");
+	    			img.src = character.Image;
 	    		}
 	    		else if (character.Status == "defeated") {
 	  				if (debugging) {console.log("This toon alive and ready in character pool: " + character.FullName);}
 	    			targetDefeatedDiv.append(newDiv);
 	    			newDiv.className = "col-xs-12 col-sm-6 col-md-6 col-lg-6";
+	    			newDiv.setAttribute("style", "background-color: red");
+	    			img.src = "assets/images/defeated.jpg";
 	    		}
 	    		else {
 	    			console.log("annnd we're broken again - something wrong with character divs");
 	    		}
 				img.setAttribute("id", character.ShortName);
-	    		img.src = character.Image;
+	    		//img.src = character.Image;
 	    		img.className = "relative"
 	    		statDiv.className = ".absoluteForImage";
 	    		statDiv.innerHTML = "<br>" + character.FullName + "<br>HP: " + character.HP + " AP: " + character.AP + " Counter: " + character.CounterAP;
