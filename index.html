@@ -23,18 +23,17 @@
 			</div>
 				<hr>
 			<div id="rules" class="rules">
-				<!-- <span class="rules"> TODO Fix this so that rules are more clickable - right now it's a bit punchy -->
-				<h5 class="rules">Gameplay:</h5>
-				<h5 class="rules">Select a character to represent you.</h5>
-				<h5 class="rules">Then select your first opponent.</h5>
-				<h5 class="rules">Once both are selected click 'Attack' until you either defeat said opponent or lose.</h5>
-				<h5 class="rules">Select another opponent and continue with attacks, repeat until you either win or lose.</h5>
-				<h5 class="rules">To win, you must defeat all opponents!</h5>
-				<hr class="rules">
-				<h5 class="rules">You might notice as you fight opponents your character will grow in strength, this should make future fights significantly easier.</h5>
-				<h3 class="rules text-success">Click anywhere on the rules to hide them.</h3>
-				<hr class="rules">
-				<!-- </span> -->
+				<!-- TODO Fix this so that rules are more clickable - right now it's cheating by multi using an ID -->
+				<h5 id="rules">Gameplay:</h5>
+				<h5 id="rules">Select a character to represent you.</h5>
+				<h5 id="rules">Then select your first opponent.</h5>
+				<h5 id="rules">Once both are selected click 'Attack' until you either defeat said opponent or lose.</h5>
+				<h5 id="rules">Select another opponent and continue with attacks, repeat until you either win or lose.</h5>
+				<h5 id="rules">To win, you must defeat all opponents!</h5>
+				<hr id="rules">
+				<h5 id="rules">You might notice as you fight opponents your character will grow in strength, this should make future fights significantly easier.</h5>
+				<h3 id="rules" class="text-success">Click anywhere on the rules to hide them.</h3>
+				<hr id="rules">
 			</div>
 		</row>
 	</container>
@@ -83,16 +82,12 @@
 	</container>
 
 	<script type="text/javascript">
+     	$(document).ready(function() {
 
-     	// $(document).ready(function() {
-
-      // 	});
+      	});
 
   		// obvious variable is obvious - used for 'teaching' myself and others.
   		var debugging = false;
-  		var verbose = false;
-
-  		if (debugging) {console.log("----- Start Game -----");}
 
   		var player = {
   			Choice:"",
@@ -102,16 +97,15 @@
   		var gameCharacters = initialSetup();
 
   		$(document).on('click', function(event) {
-    		console.log(event.target.id);
 
     		if (event.target.id != null && event.target.id != "") {
     			// make sure we're only allowing id's that are valid for game use (ie dropping the 'title' div and what not)
     			if (isValidClick(event.target.id)) {
-    				console.log("User selection: " + event.target.id);
+    				if (debugging) {console.log("User selection: " + event.target.id);}
 		    		// initial player selection
 		    		if (player.Choice == "") {
 		    			player.Choice = event.target.id;
-		    			console.log("Selecting player: " + player.Choice);
+		    			if (debugging) {console.log("Selecting player: " + player.Choice);}
 			    		gameCharacters[player.Choice].Status = "player";
 			    		$("#initialSelection").addClass("hidden");
 			    		characterDivSetup();
@@ -120,32 +114,32 @@
 		    		// assigning opponent selection
 		    		else if (player.Opponent == "") {
 		    			player.Opponent = event.target.id;
-		    			console.log("Selecting opponent: " + player.Opponent);
+		    			if (debugging) {console.log("Selecting opponent: " + player.Opponent);}
 		    			gameCharacters[player.Opponent].Status = "opponent";
 		    			$("#selectOpponent").addClass("hidden");
 		    			characterDivSetup();
 		    		}
 		    		else if (player.Choice != "" && player.Opponent != "") {
-		    			console.log("Received click for: " + event.target.id + " but combat is not yet resolved.  Ignoring the click." );
+		    			if (debugging) {console.log("Received click for: " + event.target.id + " but combat is not yet resolved.  Ignoring the click." );}
 		    		}
 		    		else {
-		    			console.log("We have a problem with the on click events");
+		    			if (debugging) {console.log("We have a problem with the on click events");}
 		    		}
 
     			}
     			else if (event.target.id == "rules") {
-    				console.log("hiding rules div");
+    				if (debugging) {console.log("hiding rules div");}
     				$(".rules").addClass("hidden");
     			}
     			else if (event.target.id == "attackButton" && player.Opponent != "") {
     				chooseOpponentAndFight(player.Opponent);
     			}
     			else if (event.target.id == "winLossContainer") {
-    				console.log("game reset time!");
+    				if (debugging) {console.log("game reset time!");}
     			 	gameCharacters = initialSetup();
     			}
     			else {
-    				console.log("we're clicking something we're not responding to at this time - clicked: " + event.target.id)
+    				if (debugging) {console.log("we're clicking something we're not responding to at this time - clicked: " + event.target.id)}
     			}
     		}
 		});
@@ -175,17 +169,17 @@
 		// no health potions.  
 
 		function chooseOpponentAndFight(Opponent) {
-  			console.log("----- Battle Started -----");
+  			if (debugging) {console.log("----- Battle Started -----");}
 	  		// player chooses one opponent
 	  		player.Opponent = Opponent;
 	  		gameCharacters[player.Opponent].Status = "opponent";
-	  		console.log("Player using: " + player.Choice);
-	  		console.log("Currently facing off against: " + player.Opponent);
-	  		console.log("Current HP: " + gameCharacters[player.Choice].HP);
-	  		console.log("Current AP Growth: " + gameCharacters[player.Choice].APGrowth);
-	  		console.log("Player Current AP: " + gameCharacters[player.Choice].AP);
-	  		console.log("Opponent HP: " + gameCharacters[player.Opponent].HP);
-	  		console.log("Opponent Counter AP: " + gameCharacters[player.Opponent].CounterAP);
+	  		if (debugging) {console.log("Player using: " + player.Choice);}
+	  		if (debugging) {console.log("Currently facing off against: " + player.Opponent);}
+	  		if (debugging) {console.log("Current HP: " + gameCharacters[player.Choice].HP);}
+	  		if (debugging) {console.log("Current AP Growth: " + gameCharacters[player.Choice].APGrowth);}
+	  		if (debugging) {console.log("Player Current AP: " + gameCharacters[player.Choice].AP);}
+	  		if (debugging) {console.log("Opponent HP: " + gameCharacters[player.Opponent].HP);}
+	  		if (debugging) {console.log("Opponent Counter AP: " + gameCharacters[player.Opponent].CounterAP);}
 			
 			// click 'attack' - this attacks the target and increases base attack based on attack (attack = attack + basePower... goes up forever)
 			// this also removes HP based on targets counterattack power
@@ -194,27 +188,27 @@
 			if ((gameCharacters[player.Opponent].HP > 0) && (gameCharacters[player.Choice].HP > 0)) {
 				// player attacks
 				gameCharacters[player.Opponent].HP -= gameCharacters[player.Choice].AP;
-				console.log("Player damages opponent - their HP remaining: " + gameCharacters[player.Opponent].HP);
+				if (debugging) {console.log("Player damages opponent - their HP remaining: " + gameCharacters[player.Opponent].HP);}
 
 				// player attack grows!
 				gameCharacters[player.Choice].AP += gameCharacters[player.Choice].APGrowth;
-				console.log("Player learns to attack better! New AP: " + gameCharacters[player.Choice].AP);
+				if (debugging) {console.log("Player learns to attack better! New AP: " + gameCharacters[player.Choice].AP);}
 
 				// not damaged by counter if opponent defeated - we'll call this a house rule.  It makes the game SIGNIFICANTLY easier.  
 				if (gameCharacters[player.Opponent].HP > 0) {
 					// opponent counters
 					gameCharacters[player.Choice].HP -= gameCharacters[player.Opponent].CounterAP;
-					console.log("Opponent counters, new HP: " + gameCharacters[player.Choice].HP);
+					if (debugging) {console.log("Opponent counters, new HP: " + gameCharacters[player.Choice].HP);}
 				}
 			}
 
 			if (gameCharacters[player.Opponent].HP <= 0) {
-				console.log("Opponent " + player.Opponent + " defeated!");
+				if (debugging) {console.log("Opponent " + player.Opponent + " defeated!");}
 				gameCharacters[player.Opponent].Status = "defeated";
 				player.Opponent = "";
 				$("#selectOpponent").removeClass("hidden");
 				if(!(checkForWin())) {
-					console.log("Apparently no one is left to fight you.  You Win!");
+					if (debugging) {console.log("Apparently no one is left to fight you.  You Win!");}
 					$("#winLossContainer").css("background-image", "url(assets/images/gameWon.jpg)");
 					$("#winLossContainer").removeClass("hidden");
 					$(".winOrLossColor").css("color","black")
@@ -222,17 +216,16 @@
 				};
 			}
 			else if (gameCharacters[player.Choice].HP <= 0) {
-				console.log("Player is defeated!");
-				//alert("game over, player died!");
+				if (debugging) {console.log("Player is defeated!");}
 				$("#winLossContainer").css("background-image", "url(assets/images/gameLoss.jpg)");
 				$("#winLossContainer").removeClass("hidden");
 				$(".winOrLossColor").css("color","white")
 				$("#winOrLoss").html("You lost!");
 			}
 			else {
-				console.log("Looks like both Opponent and player are alive.  Player HP: " + gameCharacters[player.Choice].HP + " Opponent HP: " + gameCharacters[player.Opponent].HP);
+				if (debugging) {console.log("Looks like both Opponent and player are alive.  Player HP: " + gameCharacters[player.Choice].HP + " Opponent HP: " + gameCharacters[player.Opponent].HP);}
 			}
-			console.log("----- Battle Ended -----");
+			if (debugging) {console.log("----- Battle Ended -----");}
 			characterDivSetup();
 		};
 
@@ -258,20 +251,20 @@
 				var defeatedCount = 0;
 
 	  			if (character.Status == "player"){
-	  				console.log("This is the chosen player: " + character.FullName);
+	  				if (debugging) {console.log("This is the chosen player: " + character.FullName);}
 	  				targetPlayerDiv.append(newDiv);
 	  			}
 	  			else if (character.Status == "opponent") {
-	  				console.log("This is the chosen opponent: " + player.Opponent);
+	  				if (debugging) {console.log("This is the chosen opponent: " + player.Opponent);}
 	  				targetOpponentDiv.append(newDiv);
 	  			}
 	  			else if (character.Status == "alive") {
-	  				console.log("This toon alive and ready in character pool: " + character.FullName);
+	  				if (debugging) {console.log("This toon alive and ready in character pool: " + character.FullName);}
 	    			targetAliveDiv.append(newDiv);
 	    			newDiv.className = "col-md-6";
 	    		}
 	    		else if (character.Status == "defeated") {
-	    			console.log("This toon is defeated already: " + character.FullName);
+	  				if (debugging) {console.log("This toon alive and ready in character pool: " + character.FullName);}
 	    			targetDefeatedDiv.append(newDiv);
 	    			newDiv.className = "col-md-6";
 	    		}
@@ -352,20 +345,20 @@
 
 	  		$.each(gameCharacters, function(name, character){
 
-	  			console.log("name: " + name + " character: " + character);
+	  			if (debugging) {console.log("name: " + name + " character: " + character);}
 				var newDiv = document.createElement("div");
 				var img = document.createElement("IMG");
 				var statDiv = document.createElement("div");
 
 				if (character.Status == "alive") {
-	  				console.log("This toon alive and ready in character pool: " + character.FullName);
+	  				if (debugging) {console.log("This toon alive and ready in character pool: " + character.FullName);}
 	    			targetDiv.append(newDiv);
 	    			// TODO style for alive
 	    		}
 	    		else {
-	    			console.log("annnd we're broken again - something wrong with initial setup: >" + character.FullName + "< >" + character.Status + "<");
+	    			if (debugging) {console.log("annnd we're broken again - something wrong with initial setup: >" + character.FullName + "< >" + character.Status + "<");}
 	    		}
-	    		console.log("Creating and appending div and image for: " + character.FullName);
+	    		if (debugging) {console.log("Creating and appending div and image for: " + character.FullName);}
 				// TODO overlay this
 				//newDiv.innerHTML = character.FullName;
 	    		img.setAttribute("id", character.ShortName);
@@ -377,32 +370,26 @@
 	    		statDiv.className = ".absoluteForImage";
 	    		statDiv.innerHTML = "<br>" + character.FullName + "<br>HP: " + character.HP;
 	  		})
-
 	  		return gameCharacters;
 	  	}
 
 	  	// TODO add a way to see HP / AP stats
 	  	function characterStatusUpdate(thisCharacterDiv) {
 	  		targetDiv = $(thisCharacterDiv);
-	  		//targetDiv.empty();
 	  		var newDiv = document.createElement("div");
 	
 			newDiv.innerHTML = character.HP;
 	    	newDiv.setAttribute("id", character.ShortName);
 	    	img.setAttribute("id", character.ShortName);
-	    		img.src = character.Image;
-	    		newDiv.append(img)
-	  		// TODO update all of the divs associated with each player
-	  		// HP
-	  		// AP
-	  		// Status
+    		img.src = character.Image;
+    		newDiv.append(img)
 	  	}
 
 	  	function isValidClick(thisId) {
 	  		var thisClickValidityCheck = false;
 	  		$.each(gameCharacters, function(name, character){
 	  			if (character.ShortName == thisId && character.Status == "alive") {
-	  				console.log("we have a valid click on a valid target");
+	  				if (debugging) {console.log("we have a valid click on a valid target");}
 	  				thisClickValidityCheck = true;
 	  			}
 	  		});
@@ -410,11 +397,11 @@
 	  	}
 
 	  	function checkForWin() {
-	  		console.log("checking to see if we won as we just defeated another opponent");
+	  		if (debugging) {console.log("checking to see if we won as we just defeated another opponent");}
 	  		var isAnyoneAliveStill = false;
 	  		$.each(gameCharacters, function(name, character){
 	  			if (character.Status == "alive") {
-	  				console.log("looks like we have a live one!  Keep playing!");
+	  				if (debugging) {console.log("looks like we have a live one!  Keep playing!");}
 	  				isAnyoneAliveStill = true;
 	  			}
 	  		});
@@ -422,7 +409,7 @@
 	  	}
 
 	  	function countOfToonsAlive () {
-	  		console.log("let's get a count of how many toons are alive so we can setup our divs right");
+	  		if (debugging) {console.log("let's get a count of how many toons are alive so we can setup our divs right");}
 	  		var countOfToonsAlive = 0;
 	  		$.each(gameCharacters, function(name, character){
 	  			if (character.Status == "alive") {
@@ -431,8 +418,6 @@
 	  		});
 	  		return countOfToonsAlive;
 	  	}
-	
-
 	</script>
 </body>
 </html>
