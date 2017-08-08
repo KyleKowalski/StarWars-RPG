@@ -23,19 +23,22 @@
 				<h4>by Kyle Kowalski</h4>
 			</div>
 				<hr>
-			<div id="rules" class="">
-				<h5>Gameplay:</h5>
-				<h5>Select a character to represent you.</h5>
-				<h5>Then select your first opponent.</h5>
-				<h5>Once both are selected click 'Attack' until you either defeat said opponent or lose.</h5>
-				<h5>Select another opponent and continue with attacks, repeat until you either win or lose.</h5>
-				<h5>To win, you must defeat all opponents!</h5>
-				<hr>
-				<h5>You might notice as you fight opponents your character will grow in strength, this should make future fights significantly easier.</h5>
+			<div id="rules" class="rules">
+				<!-- <span class="rules"> -->
+				<h5 class="rules">Gameplay:</h5>
+				<h5 class="rules">Select a character to represent you.</h5>
+				<h5 class="rules">Then select your first opponent.</h5>
+				<h5 class="rules">Once both are selected click 'Attack' until you either defeat said opponent or lose.</h5>
+				<h5 class="rules">Select another opponent and continue with attacks, repeat until you either win or lose.</h5>
+				<h5 class="rules">To win, you must defeat all opponents!</h5>
+				<hr class="rules">
+				<h5 class="rules">You might notice as you fight opponents your character will grow in strength, this should make future fights significantly easier.</h5>
+				<h3 class="rules">Click anywhere on the rules to hide them.</h3>
+				<!-- </span> -->
 			</div>
 		</row>
 	</container>
-	<container id="initialSelection" class="">
+	<container id="initialSelection" class="text-center">
 			<row>
 				<h1>Please select your initial combatant from the choices below:</h1>
 			</row>
@@ -43,7 +46,7 @@
 				<div id="allCharactersHere"></div>
 			</row>
 	</container>
-	<container id="combatContainer" class="hidden float-left">
+	<container id="combatContainer" class="hidden float-left text-center">
 		<row class="col-md-12">
 			<div class="col-md-5">
 				<h3>Player Choice:</h3>
@@ -135,18 +138,22 @@
 		    		}
 
     			}
+    			else if (event.target.id == "rules") {
+    				console.log("hiding rules div");
+    				$(".rules").addClass("hidden");
+    			}
     			else if (event.target.id == "attackButton" && player.Opponent != "") {
     				chooseOpponentAndFight(player.Opponent);
     			}
+    			else if (event.target.id == "winLossContainer") {
+    				console.log("game reset time!");
+    			 	gameCharacters = initialSetup();
+    			}
     			else {
-    				console.log("looks like player is clicking attack without opponent - or we have something else wrong, dropping the click.")
+    				console.log("we're clicking something we're not responding to at this time - clicked: " + event.target.id)
     			}
     		}
 		});
-  		//player click make this better
-  		//player.Choice = "Luke";
-  		//console.log("Player chose: " +  player.Choice);
-  		//gameCharacters.Luke.Status = "player"; // allows us to choice for 'player' stats later (I hope?)
 
   		// click button to choose my player
   			// Luke
@@ -280,6 +287,7 @@
 	  	}
 
 	  	function initialSetup() {
+	  		var gameCharacters;
 			var gameCharacters = {
 	  			Luke: {
 	  				FullName:"Luke Skywalker",
@@ -329,7 +337,15 @@
 			// 		Image:"assets/images/Template.jpg"}
   			}
 
+  			$("#combatContainer").addClass("hidden");
+  			$("#winLossContainer").addClass("hidden");
+  			$("#initialSelection").removeClass("hidden");
+  			player.Choice = "";
+  			player.Opponent = "";
+
   			targetDiv = $("#allCharactersHere");
+
+  			targetDiv.empty();
 
 	  		$.each(gameCharacters, function(name, character){
 
