@@ -24,6 +24,40 @@
 			</div>
 		</row>
 	</container>
+	<container id="initialSelection" class="">
+			<row>
+				<h1>Please select your initial combatant from the choices below:</h1>
+			</row>
+			<row>
+				<div id="allCharactersHere"></div>
+			</row>
+	</container>
+	<container id="combatContainer" class="hidden float-left">
+		<row class="col-md-12">
+			<div class="col-md-5">
+				<h3>Player Choice:</h3>
+				<div id="playerCharacterHere"></div>
+			</div>
+			<div class="col-md-2">
+				<div class="btn btn-warning align-middle" id="attackButton">Attack</div>
+			</div>
+			<div class="col-md-5">
+				<h3>Opponent:</h3>
+				<div id="opponentCharacterHere"></div>
+			</div>
+		</row>
+		<row class="col-md-12">
+			<div class="col-md-6">
+				<h3>Pool:</h3>
+				<div id="aliveCharactersHere"></div>
+			</div>
+			<div class="col-md-6">
+				<h3>Defeated:</h3>
+				<div id="defeatedCharactersHere"></div>
+			</div>
+		</row>
+	</container>
+
 
 
 
@@ -44,29 +78,51 @@
   		// Player Health, AttackPower, CounterAttackPower
   		var gameCharacters = {
   			Luke: {
+  				FullName:"Luke Skywalker",
+  				ShortName:"Luke",
   				Status:"alive",
   				HP:100,
   				AP:20,
   				APGrowth:20,
-  				CounterAP:5},
+  				CounterAP:5,
+  				Image:"assets/images/Luke.jpg"},
   			ObiWan: {
+  				FullName:"Obi-Wan Kenobi",
+  				ShortName:"ObiWan",
   				Status:"alive",
   				HP:120,
   				AP:12,
   				APGrowth:12,
-  				CounterAP:10},
+  				CounterAP:10,
+  				Image:"assets/images/ObiWan.jpg"},
   			DarthSidious: {
+  				FullName:"Darth Sidious",
+  				ShortName:"DarthSidious",
   				Status:"alive",
   				HP:150,
   				AP:10,
   				APGrowth:10,
-  				CounterAP:15},
+  				CounterAP:15,
+				Image:"assets/images/DarthSidious.jpg"},
   			DarthMaul: {
+  				FullName:"Darth Maul",
+  				ShortName:"DarthMaul",
   				Status:"alive",
   				HP:180,
   				AP:10,
   				APGrowth:10,
-  				CounterAP:25}
+  				CounterAP:25,
+  				Image:"assets/images/DarthMaul.jpg"}
+  		// 		,
+  		// 	Template: {
+  		// 		FullName:"Template for later",
+  		// 		ShortName:"Template",
+  		// 		Status:"defeated",
+  		// 		HP:180,
+  		// 		AP:10,
+  		// 		APGrowth:10,
+  		// 		CounterAP:25,
+				// Image:"assets/images/Template.jpg"}
   		}
 
   		var player = {
@@ -74,13 +130,49 @@
   			Opponent:""
   		}
 
-  		//playerclick make this better
-  		player.Choice = "Luke";
-  		console.log("Player chose: " +  player.Choice);
-  		// player.HP = gameCharacters.Luke.HP;
-  		// player.AP = gameCharacters.Luke.AP;
-  		// player.APGrowth = gameCharacters.Luke.AP;
-  		gameCharacters.Luke.Status = "player"; // allows us to choice for 'player' stats later (I hope?)
+  		initialSetup();
+
+  		$(document).on('click', function(event) {
+    		console.log(event.target.id);
+
+    		// TODO solidify this logic, we can break out currently.
+    		if (event.target.id != null && event.target.id != "") {
+    			if (isValidClick(event.target.id)) {
+    				console.log("User selection: " + event.target.id);
+		    		// initial player selection
+		    		if (player.Choice == "") {
+		    			player.Choice = event.target.id;
+		    			console.log("Selecting player: " + player.Choice);
+			    		gameCharacters[player.Choice].Status = "player";
+			    		$("#initialSelection").addClass("hidden");
+			    		characterDivSetup();
+			    		$("#combatContainer").removeClass("hidden");
+		    		}
+		    		// assigning opponent selection
+		    		else if (player.Opponent == "") {
+		    			player.Opponent = event.target.id;
+		    			console.log("Selecting opponent: " + player.Opponent);
+		    			gameCharacters[player.Opponent].Status = "opponent";
+		    			characterDivSetup();
+		    		}
+		    		else if (player.Choice != "" && player.Opponent != null) {
+
+		    		}
+
+    			}
+    			else if (event.target.id == "attackButton") {
+    				chooseOpponentAndFight(player.Opponent);
+
+    			}
+    		}
+		});
+	
+		//characterDivSetup();
+
+  		//player click make this better
+  		//player.Choice = "Luke";
+  		//console.log("Player chose: " +  player.Choice);
+  		//gameCharacters.Luke.Status = "player"; // allows us to choice for 'player' stats later (I hope?)
 
   		// click button to choose my player
   			// Luke
@@ -92,16 +184,30 @@
 
   		// other players become opponents - all three
   		// this is a loop through the gameCharacters and see those that are not player and not dead
+  		//chooseOpponentAndFight("Luke");
+  		//chooseOpponentAndFight("ObiWan");
+  		//chooseOpponentAndFight("DarthSidious");
+  		//chooseOpponentAndFight("DarthMaul");
 
-  		chooseOpponentAndFight("ObiWan");
-  		chooseOpponentAndFight("DarthSidious");
-  		chooseOpponentAndFight("DarthMaul");
+		// when opponent HP drops to zero - opponent is defeated
 
-  		function chooseOpponentAndFight(Opponent) {
+		// player chooses next opponent (of remaining 2)
+
+		// when oppoent HP drops to zero - oppoentn is defeated
+
+		// player automagically fights last opponent
+
+		// if player defeats everyone - player wins!
+
+		// if players HP drops below 0... player loses
+
+		// no health potions.  
+
+		function chooseOpponentAndFight(Opponent) {
   			console.log("----- Battle Started -----");
-	  		// player chooses one opponent - clicked Obiwan
+	  		// player chooses one opponent
 	  		player.Opponent = Opponent;
-	  		gameCharacters[player.Opponent].Status = "Opponent";
+	  		gameCharacters[player.Opponent].Status = "opponent";
 	  		console.log("Player using: " + player.Choice);
 	  		console.log("Currently facing off against: " + player.Opponent);
 	  		console.log("Current HP: " + gameCharacters[player.Choice].HP);
@@ -109,12 +215,12 @@
 	  		console.log("Player Current AP: " + gameCharacters[player.Choice].AP);
 	  		console.log("Opponent HP: " + gameCharacters[player.Opponent].HP);
 	  		console.log("Opponent Counter AP: " + gameCharacters[player.Opponent].CounterAP);
+			
 			// click 'attack' - this attacks the target and increases base attack based on attack (attack = attack + basePower... goes up forever)
 			// this also removes HP based on targets counterattack power
-			// we're uhh skipping this at the moment and just doing the same thing... 
-			do {
-				// TODO write this to a text box for dramatic effect?
-
+			
+			// TODO write this to a text box for dramatic effect?
+			if ((gameCharacters[player.Opponent].HP > 0) && (gameCharacters[player.Choice].HP > 0)) {
 				// player attacks
 				gameCharacters[player.Opponent].HP -= gameCharacters[player.Choice].AP;
 				console.log("Player damages opponent - their HP remaining: " + gameCharacters[player.Opponent].HP);
@@ -129,31 +235,129 @@
 					gameCharacters[player.Choice].HP -= gameCharacters[player.Opponent].CounterAP;
 					console.log("Opponent counters, new HP: " + gameCharacters[player.Choice].HP);
 				}
-
-			}	while ((gameCharacters[player.Opponent].HP > 0) && (gameCharacters[player.Choice].HP > 0))
-
-			if (gameCharacters[player.Opponent].HP < 0) {
-				console.log("Opponent defeated!");
 			}
+			//}	while ((gameCharacters[player.Opponent].HP > 0) && (gameCharacters[player.Choice].HP > 0))
 
-			else if (gameCharacters[player.Choice].HP < 0) {
+			if (gameCharacters[player.Opponent].HP <= 0) {
+				console.log("Opponent " + player.Opponent + " defeated!");
+				gameCharacters[player.Opponent].Status = "defeated";
+				player.Opponent = "";
+			}
+			else if (gameCharacters[player.Choice].HP <= 0) {
 				console.log("Player is defeated!");
+				alert("game over, player died!");
+				// TODO a lot more here
+			}
+			else {
+				console.log("something happened with the battle cleanup, check your error");
 			}
 			console.log("----- Battle Ended -----");
+			characterDivSetup();
 		};
-		// when opponent HP drops to zero - opponent is defeated
 
-		// player chooses next opponent (of remaining 2)
+	  	function characterDivSetup() {
+	  		// cleanup and splat things in again - maybe not the most efficient but hey...
+	  		// I'm trying to do this with almost no divs on the main page / just a skeleton
+	  		$("#aliveCharactersHere").empty();
+	  		$("#playerCharacterHere").empty();
+	  		$("#opponentCharacterHere").empty();
+	  		$("#defeatedCharactersHere").empty();
+	  		// get each character and give them a div
+	  		var targetAliveDiv = $("#aliveCharactersHere");
+	  		var targetPlayerDiv = $("#playerCharacterHere");
+	  		var targetOpponentDiv = $("#opponentCharacterHere");
+	  		var targetDefeatedDiv = $("#defeatedCharactersHere");
 
-		// when oppoent HP drops to zero - oppoentn is defeated
+	  		$.each(gameCharacters, function(number, character){
 
-		// player automagically fights last opponent
+				var newDiv = document.createElement("div");
+				var img = document.createElement("IMG");
 
-		// if player defeats everyone - player wins!
+	  			if (character.Status == "player"){
+	  				console.log("This is the chosen player: " + character.FullName);
+	  				targetPlayerDiv.append(newDiv);
+	  				// TODO style for player
+	  			}
+	  			else if (character.Status == "opponent") {
+	  				console.log("This is the chosen opponent: " + character.Opponent);
+	  				targetOpponentDiv.append(newDiv);
+	  				// TODO style for opponent
+	  			}
+	  			else if (character.Status == "alive") {
+	  				console.log("This toon alive and ready in character pool: " + character.FullName);
+	    			targetAliveDiv.append(newDiv);
+	    			// TODO style for alive
+	    		}
+	    		else if (character.Status == "defeated") {
+	    			console.log("This toon is defeated already: " + character.FullName);
+	    			targetDefeatedDiv.append(newDiv);
+	    			// TODO style for defeated
+	    		}
+	    		else {
+	    			console.log("annnd we're broken again - something wrong with character divs");
+	    		}
+				//newDiv.innerHTML = character.FullName;
+	    		//newDiv.setAttribute("id", character.ShortName);
+	    		img.setAttribute("id", character.ShortName);
+	    		img.src = character.Image;
+	    		newDiv.append(img)
+	  		})
+	  	}
 
-		// if players HP drops below 0... player loses
+	  	function initialSetup() {
+			targetDiv = $("#allCharactersHere");
 
-		// no health potions.  
+	  		$.each(gameCharacters, function(number, character){
+
+				var newDiv = document.createElement("div");
+				var img = document.createElement("IMG");
+
+				if (character.Status == "alive") {
+	  				console.log("This toon alive and ready in character pool: " + character.FullName);
+	    			targetDiv.append(newDiv);
+	    			// TODO style for alive
+	    		}
+	    		else {
+	    			console.log("annnd we're broken again - something wrong with initial setup: >" + character.FullName + "< >" + character.Status + "<");
+	    		}
+	    		console.log("Creating and appending div and image for: " + character.FullName);
+				// TODO overlay this
+				//newDiv.innerHTML = character.FullName;
+	    		img.setAttribute("id", character.ShortName);
+	    		img.src = character.Image;
+	    		newDiv.append(img)
+	  		})
+
+	  	}
+
+	  	// TODO add a way to see HP / AP stats
+	  	function characterStatusUpdate(thisCharacterDiv) {
+	  		targetDiv = $(thisCharacterDiv);
+	  		//targetDiv.empty();
+	  		var newDiv = document.createElement("div");
+	
+			newDiv.innerHTML = character.HP;
+	    	newDiv.setAttribute("id", character.ShortName);
+	    	img.setAttribute("id", character.ShortName);
+	    		img.src = character.Image;
+	    		newDiv.append(img)
+	  		// TODO update all of the divs associated with each player
+	  		// HP
+	  		// AP
+	  		// Status
+	  	}
+
+	  	function isValidClick(thisId) {
+	  		var thisClickValidityCheck = false;
+	  		$.each(gameCharacters, function(number, character){
+	  			if (character.ShortName == thisId && character.Status == "alive") {
+	  				console.log("we have a valid click on a valid target");
+	  				thisClickValidityCheck = true;
+	  			}
+	  		});
+	  		return thisClickValidityCheck;
+	  	}
+	
 
 	</script>
 </body>
