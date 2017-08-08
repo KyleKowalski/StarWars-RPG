@@ -21,7 +21,9 @@
 				<h1>Star Wars</h1>
 				<h3>Role Playing Game</h3>
 				<h4>by Kyle Kowalski</h4>
+			</div>
 				<hr>
+			<div id="rules" class="">
 				<h5>Gameplay:</h5>
 				<h5>Select a character to represent you.</h5>
 				<h5>Then select your first opponent.</h5>
@@ -67,6 +69,15 @@
 			</div>
 		</row>
 	</container>
+	<container id="winLossContainer" class="hidden absolute text-center">
+		<row>
+			<div>
+				<h1 id="winOrLoss"></h1>
+				<hr>
+				<h3>Click in this window to reset the game!</h3>
+			</div>
+		</row>
+	</container>
 
 	<script type="text/javascript">
 
@@ -82,61 +93,15 @@
 
   		// show 4 possible players on screen
   		// Player Health, AttackPower, CounterAttackPower
-  		var gameCharacters = {
-  			Luke: {
-  				FullName:"Luke Skywalker",
-  				ShortName:"Luke",
-  				Status:"alive",
-  				HP:100,
-  				AP:20,
-  				APGrowth:20,
-  				CounterAP:5,
-  				Image:"assets/images/Luke.jpg"},
-  			ObiWan: {
-  				FullName:"Obi-Wan Kenobi",
-  				ShortName:"ObiWan",
-  				Status:"alive",
-  				HP:120,
-  				AP:12,
-  				APGrowth:12,
-  				CounterAP:10,
-  				Image:"assets/images/ObiWan.jpg"},
-  			DarthSidious: {
-  				FullName:"Darth Sidious",
-  				ShortName:"DarthSidious",
-  				Status:"alive",
-  				HP:150,
-  				AP:10,
-  				APGrowth:10,
-  				CounterAP:15,
-				Image:"assets/images/DarthSidious.jpg"},
-  			DarthMaul: {
-  				FullName:"Darth Maul",
-  				ShortName:"DarthMaul",
-  				Status:"alive",
-  				HP:180,
-  				AP:10,
-  				APGrowth:10,
-  				CounterAP:25,
-  				Image:"assets/images/DarthMaul.jpg"}
-  		// 		,
-  		// 	Template: {
-  		// 		FullName:"Template for later",
-  		// 		ShortName:"Template",
-  		// 		Status:"defeated",
-  		// 		HP:180,
-  		// 		AP:10,
-  		// 		APGrowth:10,
-  		// 		CounterAP:25,
-				// Image:"assets/images/Template.jpg"}
-  		}
+
+
 
   		var player = {
   			Choice:"",
   			Opponent:""
   		}
 
-  		initialSetup();
+  		var gameCharacters = initialSetup();
 
   		$(document).on('click', function(event) {
     		console.log(event.target.id);
@@ -245,11 +210,13 @@
 				console.log("Opponent " + player.Opponent + " defeated!");
 				gameCharacters[player.Opponent].Status = "defeated";
 				player.Opponent = "";
+				$("#selectOpponent").removeClass("hidden");
 			}
 			else if (gameCharacters[player.Choice].HP <= 0) {
 				console.log("Player is defeated!");
-				alert("game over, player died!");
-				// TODO a lot more here
+				//alert("game over, player died!");
+				$("#winLossContainer").removeClass("hidden");
+				$("#winOrLoss").html("You lost!");
 			}
 			else {
 				console.log("Looks like both Opponent and player are alive.  Player HP: " + gameCharacters[player.Choice].HP + " Opponent HP: " + gameCharacters[player.Opponent].HP);
@@ -271,7 +238,7 @@
 	  		var targetOpponentDiv = $("#opponentCharacterHere");
 	  		var targetDefeatedDiv = $("#defeatedCharactersHere");
 			// get each character and give them a div
-	  		$.each(gameCharacters, function(number, character){
+	  		$.each(gameCharacters, function(name, character){
 
 				var newDiv = document.createElement("div");
 				var img = document.createElement("IMG");
@@ -313,10 +280,60 @@
 	  	}
 
 	  	function initialSetup() {
-			targetDiv = $("#allCharactersHere");
+			var gameCharacters = {
+	  			Luke: {
+	  				FullName:"Luke Skywalker",
+	  				ShortName:"Luke",
+	  				Status:"alive",
+	  				HP:100,
+	  				AP:20,
+	  				APGrowth:20,
+	  				CounterAP:5,
+	  				Image:"assets/images/Luke.jpg"},
+	  			ObiWan: {
+	  				FullName:"Obi-Wan Kenobi",
+	  				ShortName:"ObiWan",
+	  				Status:"alive",
+	  				HP:120,
+	  				AP:12,
+	  				APGrowth:12,
+	  				CounterAP:10,
+	  				Image:"assets/images/ObiWan.jpg"},
+	  			DarthSidious: {
+	  				FullName:"Darth Sidious",
+	  				ShortName:"DarthSidious",
+	  				Status:"alive",
+	  				HP:150,
+	  				AP:10,
+	  				APGrowth:10,
+	  				CounterAP:15,
+					Image:"assets/images/DarthSidious.jpg"},
+	  			DarthMaul: {
+	  				FullName:"Darth Maul",
+	  				ShortName:"DarthMaul",
+	  				Status:"alive",
+	  				HP:180,
+	  				AP:10,
+	  				APGrowth:10,
+	  				CounterAP:25,
+	  				Image:"assets/images/DarthMaul.jpg"}
+	  		// 		,
+	  		// 	Template: {
+	  		// 		FullName:"Template for later",
+	  		// 		ShortName:"Template",
+	  		// 		Status:"alive",
+	  		// 		HP:180,
+	  		// 		AP:10,
+	  		// 		APGrowth:10,
+	  		// 		CounterAP:25,
+			// 		Image:"assets/images/Template.jpg"}
+  			}
 
-	  		$.each(gameCharacters, function(number, character){
+  			targetDiv = $("#allCharactersHere");
 
+	  		$.each(gameCharacters, function(name, character){
+
+	  			console.log("name: " + name + " character: " + character);
 				var newDiv = document.createElement("div");
 				var img = document.createElement("IMG");
 
@@ -335,8 +352,8 @@
 	    		img.src = character.Image;
 	    		newDiv.append(img)
 	  		})
-	  		
-	  		
+
+	  		return gameCharacters;
 	  	}
 
 	  	// TODO add a way to see HP / AP stats
@@ -358,7 +375,7 @@
 
 	  	function isValidClick(thisId) {
 	  		var thisClickValidityCheck = false;
-	  		$.each(gameCharacters, function(number, character){
+	  		$.each(gameCharacters, function(name, character){
 	  			if (character.ShortName == thisId && character.Status == "alive") {
 	  				console.log("we have a valid click on a valid target");
 	  				thisClickValidityCheck = true;
