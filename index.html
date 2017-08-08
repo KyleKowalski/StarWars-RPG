@@ -17,10 +17,19 @@
 <body>
 	<container class="text-center">
 		<row>
-			<div id="title" class="jumbotron">
+			<div id="title" class="">
 				<h1>Star Wars</h1>
 				<h3>Role Playing Game</h3>
-				<h5>by Kyle Kowalski</h5>
+				<h4>by Kyle Kowalski</h4>
+				<hr>
+				<h5>Gameplay:</h5>
+				<h5>Select a character to represent you.</h5>
+				<h5>Then select your first opponent.</h5>
+				<h5>Once both are selected click 'Attack' until you either defeat said opponent or lose.</h5>
+				<h5>Select another opponent and continue with attacks, repeat until you either win or lose.</h5>
+				<h5>To win, you must defeat all opponents!</h5>
+				<hr>
+				<h5>You might notice as you fight opponents your character will grow in strength, this should make future fights significantly easier.</h5>
 			</div>
 		</row>
 	</container>
@@ -43,6 +52,7 @@
 			</div>
 			<div class="col-md-5">
 				<h3>Opponent:</h3>
+				<div id="selectOpponent">Please select an opponent</div>
 				<div id="opponentCharacterHere"></div>
 			</div>
 		</row>
@@ -58,15 +68,11 @@
 		</row>
 	</container>
 
-
-
-
 	<script type="text/javascript">
 
-     	$(document).ready(function() {
+     	// $(document).ready(function() {
 
-      	});
-
+      // 	});
 
   		// obvious variable is obvious - used for 'teaching' myself and others.
   		var debugging = false;
@@ -153,6 +159,7 @@
 		    			player.Opponent = event.target.id;
 		    			console.log("Selecting opponent: " + player.Opponent);
 		    			gameCharacters[player.Opponent].Status = "opponent";
+		    			$("#selectOpponent").addClass("hidden");
 		    			characterDivSetup();
 		    		}
 		    		else if (player.Choice != "" && player.Opponent != "") {
@@ -328,7 +335,8 @@
 	    		img.src = character.Image;
 	    		newDiv.append(img)
 	  		})
-
+	  		
+	  		
 	  	}
 
 	  	// TODO add a way to see HP / AP stats
@@ -357,6 +365,10 @@
 	  			}
 	  		});
 	  		return thisClickValidityCheck;
+	  	}
+
+	  	function setupGame() {
+
 	  	}
 	
 
