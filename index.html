@@ -485,6 +485,14 @@
 	  		});
 	  		return countOfToonsAlive;
 	  	}
+	  	var thisRandom = generateRandom(1, 12);
+
+	  	function generateRandom(numberLow, numberHigh) {
+	  		console.log("this is the low number: " + numberLow);
+	  		console.log("this is the high number:" + numberHigh);
+	  		var thisNumber = Math.floor(Math.random() * (numberHigh - numberLow) + numberLow;
+	  		return thisNumber;
+	  	}
 	</script>
 </body>
 </html>
