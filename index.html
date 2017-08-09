@@ -91,7 +91,10 @@
 
   		var player = {
   			Choice:"",
-  			Opponent:""
+  			Opponent:"",
+  			YodaUnlocked:false,
+  			DarthVaderUnlocked:false,
+  			GrandMasterYodaUnlocked:false
   		}
 
   		var gameCharacters = initialSetup();
@@ -213,6 +216,31 @@
 					$("#winLossContainer").removeClass("hidden");
 					$(".winOrLossColor").css("color","black")
 					$("#winOrLoss").html("You win!");
+					if (player.YodaUnlocked == false) {
+						console.log("A new player has joined: Yoda!");
+						player.YodaUnlocked = true;
+					}
+					else if (player.YodaUnlocked == true) {
+						if (player.DarthVaderUnlocked == false) {
+							console.log("A new player has joined:  Darth Vader!");
+							player.DarthVaderUnlocked = true;
+						}
+						else if (player.DarthVaderUnlocked == true) {
+							if (player.GrandMasterYodaUnlocked == false) {
+								console.log("A new player has joined:  GrandMaster Yoda!");
+								player.GrandMasterYodaUnlocked = true;
+							}
+							else {
+								console.log("this is Grandmaster Yoda's we can't get here");
+							}
+						}
+						else {
+							console.log("this is Darth Vaders we can't get here");
+						}
+					}
+					else {
+						console.log("this is Yoda's we can't get here");
+					}
 				};
 			}
 			else if (gameCharacters[player.Choice].HP <= 0) {
@@ -328,7 +356,34 @@
 	  				AP:5,
 	  				APGrowth:5,
 	  				CounterAP:35,
-	  				Image:"assets/images/DarthMaul.jpg"}
+	  				Image:"assets/images/DarthMaul.jpg"},
+	  			Yoda: {
+	  				FullName:"Yoda The Wise",
+	  				ShortName:"Yoda",
+	  				Status:"hidden",
+	  				HP:250,
+	  				AP:7,
+	  				APGrowth:7,
+	  				CounterAP:45,
+	  				Image:"assets/images/Yoda.jpg"},
+	  			DarthVader: {
+	  				FullName:"Darth Vader",
+	  				ShortName:"DarthVader",
+	  				Status:"hidden",
+	  				HP:180,
+	  				AP:5,
+	  				APGrowth:5,
+	  				CounterAP:35,
+	  				Image:"assets/images/DarthVader.jpg"},
+	  			GrandMasterYoda: {
+	  				FullName:"Grand Master Yoda",
+	  				ShortName:"GrandMasterYoda",
+	  				Status:"hidden",
+	  				HP:300,
+	  				AP:50,
+	  				APGrowth:50,
+	  				CounterAP:90,
+	  				Image:"assets/images/GrandMasterYoda.jpg"}
 	  		// 		,
 	  		// 	Template: {
 	  		// 		FullName:"Template for later",
@@ -340,6 +395,12 @@
 	  		// 		CounterAP:25,
 			// 		Image:"assets/images/Template.jpg"}
   			}
+
+  			console.log("unlocked: Y/D/GMY: " + player.YodaUnlocked + "/" +player.DarthVaderUnlocked + "/" + player.GrandMasterYodaUnlocked);
+
+  			if (player.YodaUnlocked) {gameCharacters.Yoda.Status = "alive"}
+  			if (player.DarthVaderUnlocked) {gameCharacters.DarthVader.Status = "alive"}
+  			if (player.GrandMasterYodaUnlocked) {gameCharacters.GrandMasterYoda.Status = "alive"}
 
   			$("#combatContainer").addClass("hidden");
   			$("#winLossContainer").addClass("hidden");
@@ -367,8 +428,6 @@
 	    			if (debugging) {console.log("annnd we're broken again - something wrong with initial setup: >" + character.FullName + "< >" + character.Status + "<");}
 	    		}
 	    		if (debugging) {console.log("Creating and appending div and image for: " + character.FullName);}
-				// TODO overlay this
-				//newDiv.innerHTML = character.FullName;
 	    		img.setAttribute("id", character.ShortName);
 	    		img.src = character.Image;
 	    		newDiv.append(img);
