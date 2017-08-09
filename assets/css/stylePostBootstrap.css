@@ -15,12 +15,16 @@ img {
 	float:left;
 }
 
+.height100 {
+	min-height:100%;
+}
+
 .relative {
 	position:relative;
 	padding:0;
 	width:100%;
 	padding:5%;
-	height:90%;
+	min-height:100%;
 } 
 
 .absolute {
